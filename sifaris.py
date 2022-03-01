@@ -61,27 +61,29 @@ def sifaris():
                                  " VALUES(%s,%s,%s,%s)"
                 zaman30 = datetime.datetime.now()
                 cursor_1.execute(booking_servis, (id_5, ser, zaman10, zaman30))
-        deyer = "SELECT price FROM hotel_room WHERE id=%s"
-        cursor.execute(deyer, (rom_no, ))
-        d1 = cursor.fetchone()[0]
-        deyer2 = "SELECT price FROM service WHERE id=%s"
-        cursor.execute(deyer2, (ser,))
-        d2 = cursor.fetchone()[0]
-        toplam = d1 + d2
-        cs_bl = "SELECT balance FROM customer WHERE id=%s"
-        cursor.execute(cs_bl, (cus_id,))
-        bal = cursor.fetchone()[0]
-        if bal < toplam:
-            print("Balansınızda kifayət qədər vəsat yoxdur.")
-            raise "Balansınızda kifayət qədər vəsat yoxdur."
-        else:
-            hotel_baln = "UPDATE hotel SET balance=%s"
-            cursor.execute(hotel_baln, (toplam,))
-            con.commit()
-            new_bl = bal - toplam
-            cust = "UPDATE customer SET balance=%s"
-            cursor.execute(cust, (new_bl,))
-            con.commit()
+                deyer = "SELECT price FROM hotel_room WHERE id=%s"
+                cursor_1.execute(deyer, (rom_no, ))
+                d1 = cursor_1.fetchone()[0]
+                deyer2 = "SELECT price FROM service WHERE id=%s"
+                cursor_1.execute(deyer2, (ser,))
+                d2 = cursor_1.fetchone()[0]
+                toplam = d1 + d2
+                cs_bl = "SELECT balance FROM customer WHERE id=%s"
+                cursor_1.execute(cs_bl, (cus_id,))
+                bal = cursor_1.fetchone()[0]
+                if bal < toplam:
+                    print("Balansınızda kifayət qədər vəsat yoxdur.")
+                    raise "Balansınızda kifayət qədər vəsat yoxdur."
+                else:
+                    hot_bln = "SELECT balance FROM hotel WHERE id=%s"
+                    cursor_1.execute(hot_bln, (hotel, ))
+                    d3 = cursor_1.fetchone()[0]
+                    yekun = d3 + toplam
+                    hotel_baln = "UPDATE hotel SET balance=%s WHERE hotel.id=%s"
+                    cursor_1.execute(hotel_baln, (yekun, hotel))
+                    new_bl = bal - toplam
+                    cust = "UPDATE customer SET balance=%s WHERE customer.id=%s"
+                    cursor_1.execute(cust, (new_bl, cus_id))
         print(f"""""
         TOPLAM DƏYƏR:
                         Qeydiyyat ID'niz :---->>> {id_5}
